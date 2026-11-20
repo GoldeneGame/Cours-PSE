@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' file:; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' file:; img-src 'self' file: data:; media-src file:; frame-src file:">
+  <title>Cours PSE</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- En-tête (sert aussi de barre de titre de la fenêtre) -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">📚</div>
+      <div>
+        <h1>Cours PSE</h1>
+        <p id="root-name">Prévention Santé Environnement</p>
+      </div>
+    </div>
+    <label class="search" id="search-box" hidden>
+      <i class="i search-ico" data-i="search"></i>
+      <input id="search" type="search" placeholder="Rechercher un cours…" autocomplete="off">
+    </label>
+    <div class="head-actions" id="head-actions" hidden>
+      <button class="pill" id="btn-to-modules" title="Jeux d’entraînement par module"><i class="i" data-i="game"></i><span>Modules</span></button>
+      <button class="pill" id="btn-refresh" title="Actualiser la liste"><i class="i" data-i="refresh"></i><span>Actualiser</span></button>
+      <div class="menu">
+        <button class="pill round" id="btn-menu" title="Réglages" aria-label="Réglages"><i class="i" data-i="gear"></i></button>
+        <div id="menu" class="dropdown" hidden>
+          <button data-act="open-root"><i class="i" data-i="external"></i><span>Ouvrir le dossier dans Google Drive</span></button>
+          <button data-act="change-root"><i class="i" data-i="link"></i><span>Changer de dossier des cours…</span></button>
+          <button data-act="clear-cache"><i class="i" data-i="trash"></i><span>Vider le cache <span id="cache-size" class="muted"></span></span></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page de démarrage -->
+  <section id="screen-welcome" class="screen welcome" hidden>
+    <div class="floaters" aria-hidden="true">
+      <span class="fl c-A" style="--x:9%;  --y:18%; --d:0s;   --r:-8deg">🩺</span>
+      <span class="fl c-B" style="--x:20%; --y:66%; --d:1.2s; --r:6deg">🥗</span>
+      <span class="fl c-C" style="--x:80%; --y:16%; --d:.6s;  --r:8deg">😴</span>
+      <span class="fl c-D" style="--x:88%; --y:60%; --d:1.8s; --r:-6deg">⚠️</span>
+      <span class="fl c-E" style="--x:70%; --y:82%; --d:2.4s; --r:5deg">🧠</span>
+      <span class="fl c-B" style="--x:32%; --y:10%; --d:3s;   --r:-5deg">♻️</span>
+      <span class="fl c-A" style="--x:6%;  --y:84%; --d:2s;   --r:7deg">💪</span>
+      <span class="fl c-C" style="--x:58%; --y:7%;  --d:1.5s; --r:-7deg">🌍</span>
+    </div>
+    <div class="welcome-in">
+      <div class="w-logo">📚</div>
+      <h1>Bienvenue en <span>PSE</span></h1>
+      <p class="w-sub">Prévention Santé Environnement</p>
+      <p class="w-text">Tes cours et tes jeux d’entraînement, au même endroit.</p>
+      <div class="w-actions">
+        <div class="w-choice">
+          <button id="btn-start" class="btn-start">C’est parti ! <i class="i" data-i="arrow"></i></button>
+          <small>Accéder aux cours</small>
+        </div>
+        <div class="w-choice">
+          <button id="btn-modules" class="btn-start alt">🎮 Les modules</button>
+          <small>Jeux d’entraînement par module</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lien du dossier Google Drive -->
+  <section id="screen-setup" class="screen setup" hidden>
+    <div class="panel">
+      <div class="p-icon"><i class="i" data-i="link"></i></div>
+      <h2>Le lien de ton dossier de cours</h2>
+      <ol class="steps">
+        <li><span>1</span><div>Dans <a href="https://drive.google.com" data-ext>Google Drive</a>, clic droit sur ton dossier de cours → <b>Partager</b>.</div></li>
+        <li><span>2</span><div>Sous « Accès général », choisis <b>Tous les utilisateurs disposant du lien</b> (Lecteur).</div></li>
+        <li><span>3</span><div>Clique sur <b>Copier le lien</b> et colle-le ci-dessous.</div></li>
+      </ol>
+      <form id="link-form" class="link-form">
+        <input id="link-input" type="text" placeholder="https://drive.google.com/drive/folders/…">
+        <button id="btn-link" class="btn gold">Valider</button>
+      </form>
+      <p id="link-error" class="error" hidden></p>
+      <p class="hint">Toute personne qui a le lien peut consulter les cours, sans pouvoir les modifier.</p>
+      <button id="btn-cancel-link" class="btn ghost" hidden><i class="i" data-i="back"></i><span>Revenir aux cours</span></button>
+    </div>
+  </section>
+
+  <!-- Application -->
+  <section id="screen-app" class="screen app" hidden>
+
+    <!-- Accueil : le dossier courant en tuiles -->
+    <div id="home" class="home">
+      <div class="home-in">
+        <nav id="crumbs" class="crumbs"></nav>
+        <div class="top-row">
+          <h2 id="home-title"></h2>
+          <span id="home-count" class="count"></span>
+        </div>
+        <div id="tiles" class="tiles"></div>
+      </div>
+    </div>
+
+    <!-- Lecture d'un cours -->
+    <div id="reader" class="reader" hidden>
+      <aside class="side">
+        <button id="btn-back" class="back"><i class="i" data-i="back"></i><span id="back-label">Mes cours</span></button>
+        <div id="side-list" class="side-list"></div>
+      </aside>
+      <main class="viewer">
+        <div class="viewer-bar">
+          <span id="viewer-ico" class="ico sm"></span>
+          <div class="viewer-head">
+            <h3 id="viewer-title"></h3>
+            <small id="viewer-sub"></small>
+          </div>
+          <span id="viewer-offline" class="tag warn" hidden>hors ligne · dernière version enregistrée</span>
+          <div class="spacer"></div>
+          <button id="btn-open-office" class="btn soft" hidden></button>
+          <button id="btn-open-drive" class="btn soft"><i class="i" data-i="external"></i><span>Voir dans Drive</span></button>
+          <button id="btn-fullscreen" class="btn navy"><i class="i" data-i="expand"></i><span>Plein écran</span></button>
+        </div>
+        <div id="viewer-body" class="viewer-body">
+          <div id="viewer-loading" class="overlay" hidden>
+            <div class="spinner"></div>
+            <p id="loading-text">Chargement…</p>
+          </div>
+          <div id="viewer-error" class="overlay" hidden>
+            <div class="big-emoji">😕</div>
+            <p class="error" id="error-text"></p>
+            <button id="btn-retry" class="btn navy">Réessayer</button>
+          </div>
+          <div id="viewer-content" class="content"></div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <div id="toast" class="toast" hidden></div>
+  <script src="app.js"></script>
+</body>
+</html>

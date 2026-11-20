@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self' file:; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' file:; img-src 'self' file: data: blob:">
+<title>Modules PSE</title>
+<link rel="stylesheet" href="jeux.css">
+<link rel="stylesheet" href="modules.css">
+</head>
+<body>
+
+<header id="topHeader">
+  <div class="head-in">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">🛎️</div>
+      <div>
+        <h1>PSE en jeux</h1>
+        <p>Prévention Santé Environnement · Bac Pro &amp; CAP</p>
+      </div>
+      <div class="head-actions" id="headActions"></div>
+    </div>
+    <nav class="levels" id="levels" role="tablist" aria-label="Niveaux"></nav>
+  </div>
+</header>
+
+<!-- choix de la classe (élève) -->
+<main id="classView" hidden></main>
+<!-- connexion enseignant -->
+<main id="loginView" hidden></main>
+<!-- espace enseignant -->
+<main id="teacherView" hidden></main>
+
+<main id="gameView" hidden>
+  <div class="top-row">
+    <h2 id="lvlTitle"></h2>
+    <div class="bar"><i id="lvlBar"></i></div>
+    <span class="pct" id="lvlPct"></span>
+  </div>
+  <div class="diff">
+    <span class="lbl">Difficulté :</span>
+    <div class="seg" id="diffSeg" role="radiogroup" aria-label="Difficulté"></div>
+    <span class="desc" id="diffDesc"></span>
+  </div>
+  <div class="themes" id="themes" role="tablist" aria-label="Thématiques"></div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>Contenus construits d'après les programmes de PSE de la voie professionnelle (Bac Pro : seconde, première, terminale ; CAP).</footer>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true">
+  <div class="panel" id="panel">
+    <div class="p-head"><h3 id="pTitle"></h3><button class="close" id="pClose" aria-label="Fermer">×</button></div>
+    <div class="p-body" id="pBody"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="data.js"></script>
+<script src="modules.js"></script>
+</body>
+</html>

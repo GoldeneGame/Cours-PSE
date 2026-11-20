@@ -1,0 +1,48 @@
+{
+  "name": "cours-pse",
+  "productName": "Cours PSE",
+  "version": "1.0.0",
+  "description": "Navigation et affichage des cours de PSE stockés sur Google Drive",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "importer-jeux": "node tools/importer-jeux.js",
+    "predist": "node tools/importer-jeux.js",
+    "dist": "electron-builder --win portable"
+  },
+  "author": "Ben",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "commonjs",
+  "devDependencies": {
+    "electron": "^45.3.4",
+    "electron-builder": "^26.18.0"
+  },
+  "allowScripts": {
+    "electron@45.3.4": true
+  },
+  "build": {
+    "appId": "fr.ben.cours-pse",
+    "productName": "Cours PSE",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "jeux-donnees.js",
+      "renderer/**",
+      "build/icon.png",
+      "package.json"
+    ],
+    "win": {
+      "target": "portable",
+      "icon": "build/icon.png"
+    },
+    "portable": {
+      "artifactName": "Cours PSE.exe",
+      "unpackDirName": "CoursPSE"
+    },
+    "compression": "maximum"
+  }
+}

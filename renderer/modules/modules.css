@@ -1,0 +1,55 @@
+/* Ajustements de « PSE en jeux » pour Cours PSE : polices locales et fenêtre intégrée. */
+
+@font-face {
+  font-family: Fredoka;
+  src: url(../fonts/fredoka-latin-wght-normal.woff2) format("woff2");
+  font-weight: 300 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: Nunito;
+  src: url(../fonts/nunito-latin-wght-normal.woff2) format("woff2");
+  font-weight: 200 1000;
+  font-display: swap;
+}
+
+:root {
+  /* place des boutons Windows (réduire / agrandir / fermer) en haut à droite */
+  --controls: calc(100vw - env(titlebar-area-x, 0px) - env(titlebar-area-width, calc(100vw - 140px)));
+}
+
+/* l'en-tête sert de barre de titre : on peut déplacer la fenêtre en le faisant glisser */
+#topHeader { -webkit-app-region: drag; user-select: none; }
+#topHeader button, #topHeader nav { -webkit-app-region: no-drag; }
+/* le halo doré (::after) ne doit pas recouvrir les boutons d'une zone de déplacement */
+#topHeader::after { -webkit-app-region: no-drag; }
+/* les boutons de l'en-tête ne passent jamais sous les boutons Windows */
+#topHeader .brand { padding-right: max(0px, calc(var(--controls) + 10px - max(20px, (100vw - 1100px) / 2))); }
+
+/* les fenêtres de jeu restent cliquables partout, même au-dessus de l'en-tête */
+.overlay, .panel { -webkit-app-region: no-drag; }
+
+.pill { line-height: 1; }
+
+/* choix de la classe (élève) */
+#classView { min-height: calc(100vh - 110px); display: flex; align-items: flex-start; justify-content: center; padding: 40px 16px; }
+.pick-card { width: min(760px, 100%); }
+.cls-pick { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin-top: 6px; }
+.cls-big {
+  display: flex; flex-direction: column; gap: 6px; align-items: center; justify-content: center;
+  padding: 20px 14px; border-radius: 18px; border: 2px solid var(--line); background: var(--card);
+  transition: transform .12s, border-color .12s, box-shadow .12s;
+}
+.cls-big:hover { transform: translateY(-2px); border-color: var(--navy); box-shadow: 0 10px 24px rgba(29, 43, 79, .12); }
+.cls-big.on { border-color: var(--navy); }
+.cls-big b {font-family: Fredoka; font-size: 24px; color: var(--navy); }
+.cls-big small { color: var(--muted); font-weight: 700; font-size: 12.5px; line-height: 1.35; }
+
+/* tableau des notes par module et par classe */
+table.matrix th.c { text-align: center; min-width: 80px; }
+table.matrix td.wrap { min-width: 260px; }
+table.matrix tr.grp th { background: var(--navy); color: #fff; font-family: Fredoka; font-weight: 600; position: static; }
+table.matrix td.cell-note { text-align: center; }
+.cell-note .nb { display: block; font-family: Nunito; font-weight: 700; font-size: 11px; color: var(--muted); }
+td.cell-vide { text-align: center; color: var(--muted); font-weight: 800; }
+td.cell-na { text-align: center; color: #cfc8b9; }
